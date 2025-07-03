@@ -1,7 +1,7 @@
 import express from "express";
 const flat_router=express.Router();
 import { saveFlatData } from "../controller/sib_flat_controller.js";
-// import upload from "../multer/upload.js";
+import upload from "../multer/upload.js";
 // import { searchByDate, searchByFileNo } from "../controller/search.controller.js";
 
 flat_router.post("/flat/savepdf", upload.array("images") ,saveFlatData)

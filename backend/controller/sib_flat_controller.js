@@ -1,4 +1,4 @@
-import SIBValuationFlat from "../models/flat_sib_model";
+import SIBValuationFlat from "../models/flat_sib_model.js";
 
 import mongoose from "mongoose";
 
