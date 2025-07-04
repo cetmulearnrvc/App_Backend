@@ -55,3 +55,47 @@ export const saveFlatData = async(req,res)=>{
     }
 
 }
+
+export const getNearbyFlat = async(req,res)=>{
+
+  console.log("A nearby Search received")
+  const {latitude,longitude} = req.body
+  const lat1=latitude;
+  const lon1=longitude;
+
+  console.log(lat1,lon1)
+  let dis=100000;
+  const responseData=[];
+
+  const cursor=SIBValuationFlat.find()
+
+  for await(const doc of cursor)
+  {   
+      doc.images.forEach((img, index) => {
+
+  if (img.latitude && img.longitude) {
+
+    const lat2=parseFloat(img.latitude);
+    const lon2=parseFloat(img.longitude);
+    
+    dis=haversineDistance(lat1,lon1,lat2,lon2)
+    
+
+    if (dis <= 1) {
+        responseData.push({
+          distance:dis,
+          latitude:lat2,
+          longitude:lon2,
+          marketValue:doc.marketValue || 0
+        });
+      }
+    
+  }
+  }); 
+  }
+
+  console.log(responseData)
+
+  return res.status(200).json(responseData)
+  
+}
